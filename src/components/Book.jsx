@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { pages } from "./UI";
-import { BoxGeometry } from "three";
+import { BoxGeometry, Vector3 } from "three";
 
 const PAGE_WIDTH = 1.28;
 const PAGE_HEIGHT = 1.71;
@@ -15,6 +15,18 @@ const pageGeometry = new BoxGeometry(
   PAGE_SEGMENTS,
   2
 );
+
+pageGeometry.translate(PAGE_WIDTH/ 2, 0, 0);//set page geometry to shift it to a relevant position
+const position = pageGeometry.attributes.position;
+const vertex = new Vector3();
+const skinIndexes = [];
+const skinWeights = [];
+
+for ( let i = 0; i < position.count; i++){
+  
+}
+
+
 
 //page component
 
