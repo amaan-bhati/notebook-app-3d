@@ -1,16 +1,29 @@
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { pages } from "./UI";
 import {
   Bone,
   BoxGeometry,
+  Color,
+  Float32BufferAttribute,
+  MathUtils,
+  MeshStandardMaterial,
   Skeleton,
   SkinnedMesh,
+  SRGBColorSpace,
   Uint16BufferAttribute,
   Vector3,
 } from "three";
 
+
+
+const easingFactor = 0.5; // Controls the speed of the easing
+const easingFactorFold = 0.3; // Controls the speed of the easing
+const insideCurveStrength = 0.18; // Controls the strength of the curve
+const outsideCurveStrength = 0.05; // Controls the strength of the curve
+const turningCurveStrength = 0.09; // Controls the strength of the curve
+
 const PAGE_WIDTH = 1.28;
-const PAGE_HEIGHT = 1.71;
+const PAGE_HEIGHT = 1.71; // 4:3 aspect ratio
 const PAGE_DEPTH = 0.003;
 const PAGE_SEGMENTS = 30;
 const SEGMENT_WIDTH = PAGE_WIDTH / PAGE_SEGMENTS;
@@ -52,6 +65,10 @@ pageGeometry.setAttribute(
   "skinIndex",
   new Float32BufferAttribute(skinWeights, 4)
 ); //float because it is a value between 0 and 1
+
+
+const whiteColor = new Color("white");
+const emissiveColor = new Color("orange");
 
 //page component
 
