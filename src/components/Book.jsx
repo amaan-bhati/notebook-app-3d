@@ -1,3 +1,7 @@
+// import { useCursor, useTexture } from "@react-three/drei";
+// import { useFrame } from "@react-three/fiber";
+// import { useAtom } from "jotai";
+// import { easing } from "maath";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { pages } from "./UI";
 import {
@@ -13,8 +17,8 @@ import {
   Uint16BufferAttribute,
   Vector3,
 } from "three";
-
-
+// import { degToRad } from "three/src/math/MathUtils.js";
+// import { pageAtom, pages } from "./UI";
 
 const easingFactor = 0.5; // Controls the speed of the easing
 const easingFactorFold = 0.3; // Controls the speed of the easing
@@ -66,10 +70,8 @@ pageGeometry.setAttribute(
   new Float32BufferAttribute(skinWeights, 4)
 ); //float because it is a value between 0 and 1
 
-
 const whiteColor = new Color("white");
 const emissiveColor = new Color("orange");
-
 
 const pageMaterials = [
   new MeshStandardMaterial({
@@ -146,17 +148,17 @@ const Page = ({ number, front, back, ...props }) => {
 };
 export const Book = ({ ...props }) => {
   return (
-    <group {...props}>
-      {[...pages].map((pageDat, index) =>
-        index === 0 ? (
-          <Page
-            position-x={index * 0.15}
-            key={index}
-            number={index}
-            {...pageData}
-          />
-        ) : null
-      )}
+    <group {...props} rotation-y={-Math.PI / 2}>
+      {[...pages].map((pageData, index) => (
+        <Page
+          key={index}
+          page={delayedPage}
+          number={index}
+          opened={delayedPage > index}
+          bookClosed={delayedPage === 0 || delayedPage === pages.length}
+          {...pageData}
+        />
+      ))}
     </group>
   );
 };
