@@ -97,8 +97,18 @@ const pageMaterials = [
 
 //page component
 
-const Page = ({ number, front, back, ...props }) => {
+const Page = ({ number, front, back, page, opened, bookClosed, ...props }) => {
+  const [picture, picture2, pictureRoughness] = useTexture([
+    `/textures/${front}.jpg`,
+    `/textures/${back}.jpg`,
+    ...(number === 0 || number === pages.length - 1
+      ? [`/textures/book-cover-roughness.jpg`]
+      : []),
+  ]);
+  picture.colorSpace = picture2.colorSpace = SRGBColorSpace;
   const group = useRef();
+  const turnedAt = useRef(0);
+  const lastOpened = useRef(opened);
   const SkinnedMeshRef = useRef();
 
   const manualSkinnedMesh = useMemo(() => {
@@ -146,6 +156,7 @@ const Page = ({ number, front, back, ...props }) => {
     </group>
   );
 };
+
 export const Book = ({ ...props }) => {
   return (
     <group {...props} rotation-y={-Math.PI / 2}>
